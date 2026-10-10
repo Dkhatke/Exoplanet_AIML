@@ -1,0 +1,48 @@
+/* ui/styles.css — Phase 6 dark astronomy theme
+ * Injected into the Streamlit app via st.markdown(..., unsafe_allow_html=True).
+ * Deep-navy background, star-white text, glassmorphism metric cards.
+ */
+
+:root {
+    --bg-deep:      #0b1020;   /* deep navy */
+    --bg-panel:     #131a2e;   /* panel navy */
+    --bg-glass:     rgba(255, 255, 255, 0.05);
+    --border-glass: rgba(255, 255, 255, 0.12);
+    --text-star:    #e8ecf8;   /* star-white */
+    --text-dim:     #9aa4c0;
+    --accent:       #6ea8fe;
+}
+
+/* App background */
+.stApp {
+    background: radial-gradient(1200px 600px at 20% -10%, #16203c 0%, var(--bg-deep) 60%);
+    color: var(--text-star);
+}
+
+/* Headers */
+h1, h2, h3 { color: var(--text-star); letter-spacing: 0.2px; }
+
+/* Glassmorphism metric card */
+.glass-card {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    padding: 16px 18px;
+    margin: 8px 0;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+.glass-card .label { color: var(--text-dim); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.6px; }
+.glass-card .value { color: var(--text-star); font-size: 1.6rem; font-weight: 700; }
+
+/* Triage verdict banner */
+.verdict {
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border: 1px solid var(--border-glass);
+}
+
+/* Small helper text */
+.dim { color: var(--text-dim); font-size: 0.9rem; }

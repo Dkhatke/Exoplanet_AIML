@@ -48,6 +48,25 @@ REVIEW_PROB_THRESHOLD  = 0.60     # Route to REVIEW if max(P_class) < this
 # Class conflict resolution priority (higher = wins)
 CLASS_CONFLICT_PRIORITY = {"PLANET": 4, "EB": 3, "VARIABLE": 2, "NOISE": 1}
 
+# ── DASHBOARD COLOR SCHEME (Phase 6) ─────────────────────────
+# Used by the Streamlit triage gauge + recycler panels.
+CLASS_COLORS = {
+    "PLANET":   "#3b82f6",   # blue
+    "EB":       "#ef4444",   # red
+    "VARIABLE": "#22c55e",   # green
+    "NOISE":    "#9ca3af",   # gray
+    "REVIEW":   "#f97316",   # orange
+}
+# Human-readable one-liners shown under each triage verdict.
+CLASS_BLURB = {
+    "PLANET":   "Transit shape consistent with a sub-stellar occulter.",
+    "EB":       "Eclipsing binary signature (secondary eclipse / depth mismatch).",
+    "VARIABLE": "Stellar pulsation or rotational modulation.",
+    "NOISE":    "No significant periodic signal detected.",
+    "REVIEW":   "Classifier confidence below threshold — needs human review.",
+}
+
+
 # ── ML / TRAINING ────────────────────────────────────────────
 RANDOM_STATE      = 42
 TEST_SIZE         = 0.2

@@ -709,7 +709,7 @@ Tasks:
 ## PHASE 6: Streamlit UX Overhaul
 **Estimated Effort:** 3 working days
 **Goal:** Modern multi-tab dashboard replacing app.py; fast inference from pre-trained model.
-**Status:** [ ] NOT STARTED
+**Status:** [x] COMPLETE
 
 ### Dependencies
 - Phase 5 complete (all acceptance criteria passed)
@@ -717,73 +717,73 @@ Tasks:
 ### Phase 6.1 — UI Architecture
 
 Tasks:
-- [ ] 6.1.1 Restructure app.py into 5 tabs:
+- [x] 6.1.1 Restructure app.py into 5 tabs:
     - Tab 1: Multi-Sector Light Curves (raw + detrended, sector selector)
     - Tab 2: Signal Detection (BLS periodogram, top candidates, harmonic flags)
     - Tab 3: Triage Classification (4-class probability gauge, REVIEW indicator)
     - Tab 4: Recycler Diagnostics (contextual panel based on predicted class)
     - Tab 5: Provenance & Report (star metadata, audit log, download report)
-- [ ] 6.1.2 Sidebar: TIC ID input, star name input, sector selection, run button
-- [ ] 6.1.3 Session state: cache results so re-running tabs does not re-trigger analysis
-- [ ] 6.1.4 NO model training in app.py -- only model.predict() from pre-trained model
+- [x] 6.1.2 Sidebar: TIC ID input, star name input, sector selection, run button
+- [x] 6.1.3 Session state: cache results so re-running tabs does not re-trigger analysis
+- [x] 6.1.4 NO model training in app.py -- only model.predict() from pre-trained model
 
 ### Phase 6.2 — Light Curve Component
 
 File: `ui/components/lightcurve_view.py` (NEW)
 
 Tasks:
-- [ ] 6.2.1 Interactive Plotly chart: raw normalized vs detrended flux
-- [ ] 6.2.2 Sector highlighting: different color per sector
-- [ ] 6.2.3 Phase-folded transit view (raw data + binned median)
-- [ ] 6.2.4 Transit window annotation on phase-folded plot
+- [x] 6.2.1 Interactive Plotly chart: raw normalized vs detrended flux
+- [x] 6.2.2 Sector highlighting: different color per sector
+- [x] 6.2.3 Phase-folded transit view (raw data + binned median)
+- [x] 6.2.4 Transit window annotation on phase-folded plot
 
 ### Phase 6.3 — Triage Gauge Component
 
 File: `ui/components/triage_gauge.py` (NEW)
 
 Tasks:
-- [ ] 6.3.1 Bar chart or radar chart showing probability for each of 4 classes
-- [ ] 6.3.2 Highlight REVIEW status with distinct visual indicator
-- [ ] 6.3.3 Color scheme: PLANET=blue, EB=red, VARIABLE=green, NOISE=gray, REVIEW=orange
+- [x] 6.3.1 Bar chart or radar chart showing probability for each of 4 classes
+- [x] 6.3.2 Highlight REVIEW status with distinct visual indicator
+- [x] 6.3.3 Color scheme: PLANET=blue, EB=red, VARIABLE=green, NOISE=gray, REVIEW=orange
 
 ### Phase 6.4 — Recycler View Component
 
 File: `ui/components/recycler_view.py` (NEW)
 
 Tasks:
-- [ ] 6.4.1 Dynamically render recycler output based on predicted_class
-- [ ] 6.4.2 Planet view: physical parameter table, Rp vs stellar radius chart
-- [ ] 6.4.3 EB view: primary/secondary eclipse depth comparison, morphology label
-- [ ] 6.4.4 Variable view: Lomb-Scargle periodogram, variability type
-- [ ] 6.4.5 Noise view: CDPP table, instrumental flag indicators
-- [ ] 6.4.6 REVIEW view: uncertainty explanation, top-2 competing classes displayed
+- [x] 6.4.1 Dynamically render recycler output based on predicted_class
+- [x] 6.4.2 Planet view: physical parameter table, Rp vs stellar radius chart
+- [x] 6.4.3 EB view: primary/secondary eclipse depth comparison, morphology label
+- [x] 6.4.4 Variable view: Lomb-Scargle periodogram, variability type
+- [x] 6.4.5 Noise view: CDPP table, instrumental flag indicators
+- [x] 6.4.6 REVIEW view: uncertainty explanation, top-2 competing classes displayed
 
 ### Phase 6.5 — Report Exporter
 
 File: `ui/components/report_exporter.py` (NEW)
 
 Tasks:
-- [ ] 6.5.1 Generate JSON report: all features, triage result, recycler output, metadata
-- [ ] 6.5.2 Generate HTML report: formatted summary with plots embedded
-- [ ] 6.5.3 Streamlit download buttons for both formats
+- [x] 6.5.1 Generate JSON report: all features, triage result, recycler output, metadata
+- [x] 6.5.2 Generate HTML report: formatted summary with plots embedded
+- [x] 6.5.3 Streamlit download buttons for both formats
 
 ### Phase 6.6 — Styling
 
 File: `ui/styles.css` (NEW)
 
 Tasks:
-- [ ] 6.6.1 Dark astronomy theme: deep navy background, star-white text
-- [ ] 6.6.2 Glassmorphism cards for metric displays
-- [ ] 6.6.3 Animated spinner during analysis (Streamlit native)
-- [ ] 6.6.4 Responsive column layout
+- [x] 6.6.1 Dark astronomy theme: deep navy background, star-white text
+- [x] 6.6.2 Glassmorphism cards for metric displays
+- [x] 6.6.3 Animated spinner during analysis (Streamlit native)
+- [x] 6.6.4 Responsive column layout
 
 ### Phase 6 Acceptance Criteria
 
-- [ ] AC-6.1: App starts with `streamlit run app.py` and renders all 5 tabs without errors
-- [ ] AC-6.2: Analysis of HD 209458 completes and displays triage result within 60 seconds
-- [ ] AC-6.3: No model training occurs during app runtime
-- [ ] AC-6.4: JSON report downloads correctly with all required fields
-- [ ] AC-6.5: REVIEW state renders with distinct visual indicator when uncertainty threshold triggered
+- [x] AC-6.1: App starts with `streamlit run app.py` and renders all 5 tabs without errors
+- [x] AC-6.2: Analysis of HD 209458 completes and displays triage result within 60 seconds
+- [x] AC-6.3: No model training occurs during app runtime
+- [x] AC-6.4: JSON report downloads correctly with all required fields
+- [x] AC-6.5: REVIEW state renders with distinct visual indicator when uncertainty threshold triggered
 
 ---
 
@@ -899,7 +899,7 @@ Phase 2: [ ] NOT STARTED  / [ ] IN PROGRESS  / [ ] COMPLETE
 Phase 3: [ ] NOT STARTED  / [ ] IN PROGRESS  / [ ] COMPLETE
 Phase 4: [ ] NOT STARTED  / [ ] IN PROGRESS  / [ ] COMPLETE
 Phase 5: [x] COMPLETE
-Phase 6: [ ] NOT STARTED  / [ ] IN PROGRESS  / [ ] COMPLETE
+Phase 6: [x] COMPLETE
 Phase 7: [ ] NOT STARTED  / [ ] IN PROGRESS  / [ ] COMPLETE
 ```
 

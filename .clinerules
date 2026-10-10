@@ -56,8 +56,8 @@ scheduled for a Phase 6 rewrite onto the modular pipeline.
 | 3 Dataset Build (100 stars) | DONE (script + manifest) |
 | 4 4-Class Classifier | DONE |
 | 5 Recycler Modules | DONE |
-| 6 Streamlit UX Overhaul | NEXT / not started |
-| 7 Batch + CI + Docs | not started |
+| 6 Streamlit UX Overhaul | DONE |
+| 7 Batch + CI + Docs | NEXT / not started |
 
 **Source of truth for task detail:** `IMPLEMENTATION_PLAN.md`
 (checkboxes + acceptance criteria). Update it whenever a task or phase
