@@ -1,0 +1,59 @@
+# ── Virtual environments ──────────────────────────────────────
+venv/
+env/
+.venv/
+
+# ── TESS raw cache (large FITS/Parquet files, re-downloadable) ─
+data/cache/
+data/*.parquet
+data/dataset_100.parquet
+
+# ── Catalog CSVs (re-downloadable; large) ────────────────────
+# Keep targets_100.csv and label_conflicts.csv in git (small, hand-curated)
+# Exclude auto-downloaded raw catalog files
+data/catalogs/toi_confirmed.csv
+data/catalogs/villanova_eb.csv
+data/catalogs/gaia_dr3_variables.csv
+
+# ── Trained ML models (regenerate via scripts/train_classifier.py) ─
+models/
+
+# ── Output plots, logs, reports ──────────────────────────────
+outputs/
+
+# ── Python cache ─────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+.Python
+
+# ── Jupyter ──────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── OS metadata ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+
+# ── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.code-workspace
+
+# ── Streamlit cache ──────────────────────────────────────────
+.streamlit/
+
+# ── Testing & coverage ───────────────────────────────────────
+.pytest_cache/
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# ── Misc ─────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak

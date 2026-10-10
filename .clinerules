@@ -1,0 +1,117 @@
+# .clinerules — AIML-Project (Exoplanet_Detection)
+
+> Machine-readable + human context for AI coding agents (Cline, etc.).
+> Read this FIRST before touching code. Keep it in sync with
+> IMPLEMENTATION_PLAN.md and PROJECT_CONTEXT.md as phases complete.
+
+## 1. What this project is
+
+**AIML-Project / AIML_Exoplanet** — a multi-sector NASA TESS exoplanet
+detection pipeline with a false-positive "recycler". It ingests TESS
+photometric light curves, detects periodic transit signals with the
+Box Least Squares (BLS) algorithm, extracts physics-informed features,
+and classifies each target into one of four triage classes, then routes
+false positives to specialized diagnostic modules.
+
+**New remote (this repo):** `https://github.com/Dkhatke/AIML-Project.git`
+**Old remote (deprecated):** `mahi-mahalle/Exoplanet_Detection.git`
+
+## 2. The four (+1) output classes
+
+```
+PLANET    -> sub-stellar occulter (planet candidate)
+EB        -> Eclipsing Binary (odd/even depth mismatch, secondary eclipse, V-shape)
+VARIABLE  -> stellar pulsation / rotational modulation (sinusoidal/quasi-periodic)
+NOISE     -> no significant periodic signal (instrumental or statistical scatter)
+REVIEW    -> classifier uncertainty too high (max prob < 0.60); needs human check
+```
+
+## 3. Pipeline workflow (module map)
+
+```
+TIC ID / star name
+  -> src/ingestion/fetcher.py         download_sectors()  multi-sector SPOC->QLP, Parquet cache
+  -> src/ingestion/stitcher.py        stitch_sectors()    per-sector normalize + stitch
+  -> src/preprocessing/preprocessor.py detrend_lc()       transit-masked two-pass detrend (Wotan)
+  -> src/detection/detector.py        run_bls()           frequency-linear bounded BLS + harmonic check
+  -> src/features/feature_extractor.py extract_features() 25 ephemeris-blind features (no catalog leakage)
+  -> src/classifier/xgb_classifier.py train()/predict_single()  4-class XGBoost + REVIEW threshold
+  -> src/recycler/                    route_to_recycler() per-class diagnostics (planet/eb/variable/noise)
+```
+
+### Legacy pipeline (still present, being phased out)
+`src/fetcher.py`, `src/preprocessor.py`, `src/detector.py`,
+`src/analyzer.py`, `src/ml_model.py` — the original single-star HD 209458
+demo that still drives the CURRENT `app.py`. Do NOT extend these; new
+work goes in the modular `src/<phase>/` packages above. `app.py` is
+scheduled for a Phase 6 rewrite onto the modular pipeline.
+
+## 4. Current status (keep updated!)
+
+| Phase | Status |
+|---|---|
+| 0 Audit + Scaffolding | DONE |
+| 1 Multi-Sector Ingestion | DONE |
+| 2 Detection + 25 Features | DONE |
+| 3 Dataset Build (100 stars) | DONE (script + manifest) |
+| 4 4-Class Classifier | DONE |
+| 5 Recycler Modules | DONE |
+| 6 Streamlit UX Overhaul | NEXT / not started |
+| 7 Batch + CI + Docs | not started |
+
+**Source of truth for task detail:** `IMPLEMENTATION_PLAN.md`
+(checkboxes + acceptance criteria). Update it whenever a task or phase
+changes state. Update `PROJECT_CONTEXT.md` header "Last Updated / Status".
+
+## 5. How to run / test
+
+- Virtualenv: `./venv/bin/python` (Python 3.11, all deps pinned in requirements.txt).
+- Run ALL tests offline (no internet): `./venv/bin/python -m pytest tests/ -q`
+- Single module: `./venv/bin/python -m pytest tests/test_recycler_modules.py -v`
+- Tests use synthetic light-curve fixtures in `tests/conftest.py` +
+  inline builders; they must NEVER hit MAST/Gaia APIs.
+
+### ENVIRONMENT NOTE (important)
+`requirements.txt` pins `numpy>=1.24,<2.0`. The venv MUST use numpy 1.x
+(1.26.4). numpy 2.x breaks the ABI-compiled `pyarrow` and older
+`astropy`. If imports fail with `_ARRAY_API not found` or
+`np.in1d` errors, numpy got upgraded — reinstall:
+`./venv/bin/pip install 'numpy>=1.24.0,<2.0.0' 'astropy>=5.3.0,<7.0.0'`
+
+## 6. Conventions & rules (follow these)
+
+- **Ephemeris-blind features:** the feature extractor must NEVER take a
+  catalog period/t0 as model input (prevents leakage). Compare to catalog
+  period only in an audit log.
+- **Dynamic stellar params:** never hardcode HD 209458 constants. Resolve
+  via `src/ingestion/stellar_resolver.py` (TIC) and pass down; planet
+  module uses the passed `stellar_params`.
+- **Transit-preserving detrending:** two-pass (quick BLS -> mask -> detrend).
+- **Resource limits (non-negotiable):** MAX_PARALLEL_WORKERS=2,
+  MAX_SECONDS_PER_TARGET=120, MAX_BLS_FREQUENCY_BINS=50_000, PILOT_SIZE=5.
+- **Logging:** use `from src.utils.logger import get_logger; log = get_logger(__name__)`.
+- **Comments:** modules use box-drawing headers (`# ===...`) and a
+  `Phase N:` tag; keep that style. Use ASCII hyphens in code comments.
+- Every recycler module returns a plain dict; the router never raises.
+
+## 7. Git workflow (IMPORTANT)
+
+- Work happens on a **feature branch**, NOT `main`.
+- Current working branch convention: `feature/phase-5-recycler` (and later
+  `feature/phase-6-...`, etc.), branched off `main`.
+- Commit message style: short imperative subject, e.g.
+  `Implement Phase 5 recycler modules + tests`.
+- Push the feature branch: `git push -u origin <feature-branch>`.
+- Merge to `main` via PR only AFTER it runs properly (tests green).
+- Do NOT commit directly to `main`.
+- `.gitignore` already excludes `venv/`, `data/cache/`, large catalogs,
+  `models/`, `outputs/`. Keep curated small files (targets_100.csv,
+  dataset_100_results.json) tracked.
+
+## 8. Key files quick reference
+
+- `config.py`            — all tunable constants, feature list, paths, limits.
+- `IMPLEMENTATION_PLAN.md` — phase-by-phase tasks + acceptance criteria.
+- `PROJECT_CONTEXT.md`   — architecture, dataset strategy, glossary.
+- `REQUIREMENTS_SPEC.md` — dataset sources, deps, test requirements.
+- `tests/conftest.py`    — offline synthetic light-curve fixtures.
